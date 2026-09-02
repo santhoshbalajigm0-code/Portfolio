@@ -7,12 +7,14 @@
     --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     --gold: #D4AF37;
+    --gold-light: #F9E79F;
+    --gold-dark: #9A7B1C;
     --bg-dark: #050B18;
     --bg-radial: #101E36;
     --text-primary: #E4E3E0;
-    --card-cream: #FFFDD0;
-    --card-ivory: #F8F5F0;
-    --card-dark: #141414;
+    --card-cream: #FDFBF7;
+    --card-ivory: #F4EFE6;
+    --card-dark: #0c1220;
   }
 
   body {
@@ -61,19 +63,67 @@
   transform: rotateY(180deg);
 }
 
-/* Immersive UI geometric cards pattern */
-.immersive-grid-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 15H25L30 5zM30 55L25 45H35L30 55zM5 30L15 25V35L5 30zM55 30L45 35V25L55 30z' fill='%23ffffff' fill-opacity='0.4'/%3E%3C/svg%3E");
+/* Real Playing Card Linen Texture (Air-Cushion Finish) */
+.card-linen-texture {
+  background-image: 
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(212,175,55,0.05) 0%, transparent 80%);
+  background-size: 4px 4px, 4px 4px, 100% 100%;
 }
 
-/* Luxury card gold & foil sheen */
-.gold-sheen {
-  background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(255,255,255,0.08) 50%, rgba(212,175,55,0.25) 100%);
+.card-linen-dark {
+  background-image: 
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 20%, rgba(212,175,55,0.12) 0%, transparent 70%);
+  background-size: 5px 5px, 5px 5px, 100% 100%;
 }
 
-.card-pattern-overlay {
-  background-image: radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px);
-  background-size: 16px 16px;
+/* Luxury Card Edge & Bevel Shadow */
+.card-physical-depth {
+  box-shadow: 
+    0 1px 0 1px rgba(255, 255, 255, 0.25) inset,
+    0 -1px 0 1px rgba(0, 0, 0, 0.4) inset,
+    0 10px 25px -5px rgba(0, 0, 0, 0.7),
+    0 25px 50px -12px rgba(0, 0, 0, 0.85);
+}
+
+.card-physical-depth-hover {
+  box-shadow: 
+    0 1px 0 1px rgba(255, 255, 255, 0.4) inset,
+    0 -1px 0 1px rgba(0, 0, 0, 0.5) inset,
+    0 20px 40px -10px rgba(0, 0, 0, 0.8),
+    0 35px 70px -15px rgba(212, 175, 55, 0.3);
+}
+
+/* Holographic Foil Glare */
+.holographic-glare {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    rgba(255, 215, 0, 0.25) 45%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(147, 51, 234, 0.25) 55%,
+    rgba(59, 130, 246, 0.2) 60%,
+    transparent 75%
+  );
+  background-size: 200% 200%;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Gold Embossed Foil Text */
+.gold-foil-text {
+  background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 40%, #AA8012 70%, #FFE89E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+.gold-border-ornate {
+  border-image: linear-gradient(to bottom right, #FFE28A, #D4AF37, #8B6508, #FFE28A) 1;
 }
 
 /* Card table subtle texture */
@@ -99,4 +149,5 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #D4AF37;
 }
+
 

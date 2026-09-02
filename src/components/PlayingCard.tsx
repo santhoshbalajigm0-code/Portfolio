@@ -13,7 +13,7 @@ export interface PlayingCardProps {
   onFlip?: () => void;
   className?: string;
   enableTilt?: boolean;
-  themeColor?: 'cream' | 'ivory' | 'ruby' | 'royal' | 'emerald' | 'violet' | 'gold' | 'dark';
+  themeColor?: 'cream' | 'ivory' | 'ruby' | 'royal' | 'emerald' | 'violet' | 'gold' | 'dark' | 'midnight';
   glowColor?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'custom';
   interactive?: boolean;
@@ -35,7 +35,7 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
   glowColor,
   size = 'md',
   interactive = true,
-  cursorLabel = 'DRAW',
+  cursorLabel = 'FLIP',
   onClick,
   id,
 }) => {
@@ -46,11 +46,11 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 20, stiffness: 200, mass: 0.5 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), springConfig);
-  const glareX = useTransform(mouseX, [-0.5, 0.5], ['0%', '100%']);
-  const glareY = useTransform(mouseY, [-0.5, 0.5], ['0%', '100%']);
+  const springConfig = { damping: 18, stiffness: 220, mass: 0.4 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [14, -14]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-14, 14]), springConfig);
+  const glareX = useTransform(mouseX, [-0.5, 0.5], ['10%', '90%']);
+  const glareY = useTransform(mouseY, [-0.5, 0.5], ['10%', '90%']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!enableTilt || !cardRef.current) return;
@@ -72,7 +72,7 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
     mouseY.set(0);
   };
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     if (onFlip) {
       cardAudio.playFlip();
       onFlip();
@@ -83,28 +83,28 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
   };
 
   const isRed = suit === 'hearts' || suit === 'diamonds';
-  const pipColor = isRed ? 'text-rose-500' : 'text-slate-900 dark:text-slate-100';
 
-  // Card themes
+  // Card themes with authentic paper and luxury dark variants
   const getCardFaceStyles = () => {
     switch (themeColor) {
       case 'cream':
-        return 'bg-gradient-to-br from-[#FFFDD0] via-[#F8F5F0] to-[#EFEBD9] text-[#141414] border-[#D4AF37]/40';
+        return 'bg-gradient-to-b from-[#FFFDF9] via-[#FAF6ED] to-[#F2EDE0] text-[#141414] border-[#D4AF37]/60 card-linen-texture';
       case 'ivory':
-        return 'bg-gradient-to-br from-[#FFFDD0] via-[#FAF7F0] to-[#F0ECE0] text-[#141414] border-[#D4AF37]/50';
+        return 'bg-gradient-to-b from-[#FFFFFC] via-[#F8F4EB] to-[#EDE7D8] text-[#141414] border-[#D4AF37]/70 card-linen-texture';
       case 'ruby':
-        return 'bg-gradient-to-b from-[#240B12] to-[#120408] text-rose-50 border-[#D4AF37]/40';
+        return 'bg-gradient-to-b from-[#220810] via-[#150308] to-[#0A0104] text-rose-50 border-[#D4AF37]/50 card-linen-dark';
       case 'royal':
-        return 'bg-gradient-to-b from-[#0B152B] to-[#050B18] text-blue-50 border-[#D4AF37]/40';
+        return 'bg-gradient-to-b from-[#0B1736] via-[#060D20] to-[#030610] text-blue-50 border-[#D4AF37]/50 card-linen-dark';
       case 'emerald':
-        return 'bg-gradient-to-b from-[#0A201A] to-[#040F0C] text-emerald-50 border-[#D4AF37]/40';
+        return 'bg-gradient-to-b from-[#08241C] via-[#04140F] to-[#020A07] text-emerald-50 border-[#D4AF37]/50 card-linen-dark';
       case 'violet':
-        return 'bg-gradient-to-b from-[#180D2C] to-[#0B0516] text-purple-50 border-[#D4AF37]/40';
+        return 'bg-gradient-to-b from-[#1E0F38] via-[#0E061D] to-[#06020D] text-purple-50 border-[#D4AF37]/50 card-linen-dark';
       case 'gold':
-        return 'bg-gradient-to-b from-[#281F08] to-[#120D02] text-amber-50 border-[#D4AF37]/60';
+        return 'bg-gradient-to-b from-[#2E2208] via-[#181102] to-[#0A0701] text-amber-50 border-[#D4AF37]/70 card-linen-dark';
+      case 'midnight':
       case 'dark':
       default:
-        return 'bg-gradient-to-b from-[#0D182E] to-[#050B18] text-[#E4E3E0] border-[#D4AF37]/35';
+        return 'bg-gradient-to-b from-[#0F1B33] via-[#080E1C] to-[#040810] text-[#E4E3E0] border-[#D4AF37]/45 card-linen-dark';
     }
   };
 
@@ -116,9 +116,9 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
       case 'md':
         return 'w-64 h-92 p-4 rounded-2xl';
       case 'lg':
-        return 'w-full max-w-md min-h-[460px] p-6 rounded-[24px]';
+        return 'w-full max-w-md min-h-[480px] p-6 rounded-[24px]';
       case 'xl':
-        return 'w-full max-w-2xl min-h-[540px] p-8 rounded-[24px]';
+        return 'w-full max-w-2xl min-h-[560px] p-8 rounded-[24px]';
       case 'custom':
       default:
         return 'p-6 md:p-8 rounded-[24px]';
@@ -126,7 +126,7 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
   };
 
   const isLightFace = themeColor === 'cream' || themeColor === 'ivory';
-  const effectivePipColor = isRed ? 'text-[#DC2626]' : (isLightFace ? 'text-[#141414]' : 'text-[#E4E3E0]');
+  const effectivePipColor = isRed ? 'text-[#DC2626]' : (isLightFace ? 'text-[#18181B]' : 'text-[#F4EFE6]');
 
   return (
     <div
@@ -147,91 +147,102 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
         }}
         animate={{
           rotateY: isFlipped ? 180 : 0,
-          y: isHovered && interactive ? -6 : 0,
-          scale: isHovered && interactive ? 1.015 : 1,
+          y: isHovered && interactive ? -8 : 0,
+          scale: isHovered && interactive ? 1.02 : 1,
         }}
         transition={{
-          rotateY: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
+          rotateY: { duration: 0.7, ease: [0.23, 1, 0.32, 1] },
           y: { duration: 0.25 },
           scale: { duration: 0.25 },
         }}
-        className={`relative w-full h-full transition-shadow duration-300 preserve-3d ${
+        className={`relative w-full h-full preserve-3d transition-all duration-300 ${
           isHovered
-            ? 'shadow-[0_35px_80px_-15px_rgba(0,0,0,0.8)]'
-            : 'shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)]'
+            ? 'card-physical-depth-hover shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)]'
+            : 'card-physical-depth'
         }`}
       >
-        {/* CARD FRONT */}
+        {/* ========================================================
+            CARD FRONT (AUTHENTIC LUXURY CASINO FINISH)
+           ======================================================== */}
         <div
-          className={`relative w-full h-full backface-hidden border-[1px] overflow-hidden flex flex-col justify-between ${getCardFaceStyles()} ${getSizeStyles()}`}
+          className={`relative w-full h-full backface-hidden border-[1.5px] overflow-hidden flex flex-col justify-between ${getCardFaceStyles()} ${getSizeStyles()}`}
           style={{
-            boxShadow: glowColor ? `0 0 30px ${glowColor}` : 'none',
+            boxShadow: glowColor ? `0 0 35px ${glowColor}` : undefined,
           }}
         >
-          {/* Subtle Paper Grain & Luxury Grid */}
-          <div className="absolute inset-0 pointer-events-none opacity-25 card-pattern-overlay" />
+          {/* Ornate Gold Foil Outer Frame */}
+          <div className="absolute inset-2 md:inset-3 pointer-events-none border border-[#D4AF37]/50 rounded-[18px] shadow-[0_0_1px_#D4AF37]" />
+          <div className="absolute inset-[10px] md:inset-[14px] pointer-events-none border border-[#D4AF37]/25 rounded-[14px]" />
 
-          {/* Luxury Inner Double Gold Border */}
-          <div className="absolute inset-2 md:inset-3 pointer-events-none border border-[#D4AF37]/30 rounded-[18px]" />
-          <div className="absolute inset-[10px] md:inset-[14px] pointer-events-none border border-[#D4AF37]/15 rounded-[14px]" />
+          {/* Corner Filigree Ornaments */}
+          <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]/80 rounded-tl-sm pointer-events-none" />
+          <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]/80 rounded-tr-sm pointer-events-none" />
+          <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]/80 rounded-bl-sm pointer-events-none" />
+          <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]/80 rounded-br-sm pointer-events-none" />
 
-          {/* Corner Ornamental Flourishes */}
-          <div className="absolute top-2.5 left-2.5 w-3 h-3 border-t border-l border-[#D4AF37]/60 pointer-events-none" />
-          <div className="absolute top-2.5 right-2.5 w-3 h-3 border-t border-r border-[#D4AF37]/60 pointer-events-none" />
-          <div className="absolute bottom-2.5 left-2.5 w-3 h-3 border-b border-l border-[#D4AF37]/60 pointer-events-none" />
-          <div className="absolute bottom-2.5 right-2.5 w-3 h-3 border-b border-r border-[#D4AF37]/60 pointer-events-none" />
-
-          {/* Dynamic Light Sheen on Hover */}
+          {/* Dynamic Specular Holographic Glare Layer */}
           {enableTilt && (
             <motion.div
-              className="absolute inset-0 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity duration-300 holographic-glare"
               style={{
-                background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255, 230, 150, 0.16) 0%, transparent 60%)`,
+                background: `radial-gradient(circle 350px at ${glareX} ${glareY}, rgba(255, 235, 170, 0.28) 0%, rgba(255,255,255,0.08) 40%, transparent 80%)`,
+                opacity: isHovered ? 1 : 0,
               }}
             />
           )}
 
-          {/* TOP LEFT CORNER INDEX */}
-          <div className="relative z-10 flex flex-col items-center w-fit leading-none select-none">
-            <span className={`font-cinzel text-xl md:text-3xl font-black ${effectivePipColor}`}>
+          {/* TOP LEFT CORNER INDEX (RANK & SUIT) */}
+          <div className="relative z-10 flex flex-col items-center w-fit leading-none select-none pl-0.5 pt-0.5">
+            <span className={`font-cinzel text-2xl md:text-3xl font-black drop-shadow-sm ${effectivePipColor}`}>
               {rank}
             </span>
-            <SuitIcon suit={suit} size={15} className="mt-0.5" />
+            <SuitIcon suit={suit} size={18} className="mt-1 drop-shadow-sm" />
           </div>
 
           {/* CENTER CONTENT */}
-          <div className="relative z-10 my-auto w-full px-1 py-2">
+          <div className="relative z-10 my-auto w-full px-2 py-3">
             {children}
           </div>
 
           {/* BOTTOM RIGHT CORNER INDEX (ROTATED 180 DEG) */}
-          <div className="relative z-10 flex flex-col items-center w-fit leading-none select-none self-end rotate-180">
-            <span className={`font-cinzel text-xl md:text-3xl font-black ${effectivePipColor}`}>
+          <div className="relative z-10 flex flex-col items-center w-fit leading-none select-none self-end rotate-180 pr-0.5 pb-0.5">
+            <span className={`font-cinzel text-2xl md:text-3xl font-black drop-shadow-sm ${effectivePipColor}`}>
               {rank}
             </span>
-            <SuitIcon suit={suit} size={15} className="mt-0.5" />
+            <SuitIcon suit={suit} size={18} className="mt-1 drop-shadow-sm" />
           </div>
+
+          {/* Flip Hint Indicator */}
+          {onFlip && (
+            <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none opacity-70 hover:opacity-100 transition-opacity">
+              <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#D4AF37] bg-[#050B18]/80 px-2.5 py-0.5 rounded-full border border-[#D4AF37]/30 shadow-md">
+                ↻ CLICK TO FLIP
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* CARD BACK */}
+        {/* ========================================================
+            CARD BACK (ORANATE BICYCLE / ROYAL GUILLOCHÉ BACK)
+           ======================================================== */}
         <div
-          className={`absolute inset-0 w-full h-full backface-hidden rotate-y-180 border-[1.5px] border-[#D4AF37]/60 rounded-[24px] overflow-hidden bg-gradient-to-br from-[#0F1B33] via-[#080E1C] to-[#140C1A] p-5 flex flex-col items-center justify-between text-[#E4E3E0] shadow-2xl`}
+          className={`absolute inset-0 w-full h-full backface-hidden rotate-y-180 border-[1.5px] border-[#D4AF37]/70 rounded-[24px] overflow-hidden bg-gradient-to-br from-[#0F1B33] via-[#091020] to-[#160B1C] p-6 flex flex-col items-center justify-between text-[#E4E3E0] card-physical-depth`}
         >
           {/* Ornate Guilloché Card Back Pattern */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-25"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
               backgroundImage: `
-                radial-gradient(circle at center, #D4AF37 1px, transparent 1px),
-                repeating-linear-gradient(45deg, rgba(212,175,55,0.08) 0px, rgba(212,175,55,0.08) 2px, transparent 2px, transparent 10px),
-                repeating-linear-gradient(-45deg, rgba(212,175,55,0.08) 0px, rgba(212,175,55,0.08) 2px, transparent 2px, transparent 10px)
+                radial-gradient(circle at center, #D4AF37 1.5px, transparent 1.5px),
+                repeating-linear-gradient(45deg, rgba(212,175,55,0.12) 0px, rgba(212,175,55,0.12) 2px, transparent 2px, transparent 12px),
+                repeating-linear-gradient(-45deg, rgba(212,175,55,0.12) 0px, rgba(212,175,55,0.12) 2px, transparent 2px, transparent 12px)
               `,
-              backgroundSize: '20px 20px, 20px 20px, 20px 20px',
+              backgroundSize: '24px 24px, 24px 24px, 24px 24px',
             }}
           />
 
-          <div className="absolute inset-2 border-2 border-[#D4AF37]/35 rounded-[18px] pointer-events-none" />
-          <div className="absolute inset-3.5 border border-[#D4AF37]/20 rounded-[14px] pointer-events-none" />
+          <div className="absolute inset-2 border-2 border-[#D4AF37]/50 rounded-[18px] pointer-events-none" />
+          <div className="absolute inset-3.5 border border-[#D4AF37]/25 rounded-[14px] pointer-events-none" />
 
           {backContent ? (
             <div className="relative z-10 w-full h-full p-2 flex flex-col justify-between overflow-y-auto">
@@ -240,35 +251,42 @@ export const PlayingCard: React.FC<PlayingCardProps> = ({
           ) : (
             <>
               {/* Top back index */}
-              <div className="relative z-10 flex items-center justify-between w-full text-[#D4AF37]/80 font-cinzel text-xs px-2">
-                <span>THE DECK</span>
-                <span>♠ ♥ ♦ ♣</span>
+              <div className="relative z-10 flex items-center justify-between w-full text-[#D4AF37] font-cinzel text-xs px-2 tracking-widest">
+                <span>♠ THE DECK</span>
+                <span>♥ ♦ ♣</span>
               </div>
 
-              {/* Center Monogram Emblem */}
+              {/* Center Monogram Royal Seal */}
               <div className="relative z-10 my-auto flex flex-col items-center justify-center">
-                <div className="w-20 h-20 rounded-full border-2 border-[#D4AF37]/60 flex items-center justify-center bg-[#050B18]/90 shadow-[0_0_25px_rgba(212,175,55,0.25)]">
-                  <div className="w-16 h-16 rounded-full border border-[#D4AF37]/40 flex items-center justify-center">
-                    <span className="font-cinzel text-2xl font-extrabold text-[#D4AF37] tracking-tighter">
+                <div className="w-24 h-24 rounded-full border-2 border-[#D4AF37] flex items-center justify-center bg-[#050B18]/95 shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                  <div className="w-18 h-18 rounded-full border border-[#D4AF37]/60 flex items-center justify-center">
+                    <span className="font-cinzel text-3xl font-black text-[#D4AF37] tracking-tighter">
                       SB
                     </span>
                   </div>
                 </div>
-                <p className="mt-3 font-cinzel text-xs tracking-widest text-amber-200/90 uppercase font-bold">
+                <p className="mt-3.5 font-cinzel text-sm tracking-[0.25em] text-[#FFF6D6] uppercase font-bold">
                   Santhosh Balaji
                 </p>
-                <p className="font-mono-code text-[10px] text-slate-400 tracking-widest mt-0.5 uppercase">
-                  THE DEVELOPER'S DECK
+                <p className="font-mono-code text-[10px] text-amber-300/80 tracking-widest mt-1 uppercase">
+                  ARCHITECT OF CODE • 2026
                 </p>
               </div>
 
               {/* Bottom back index */}
-              <div className="relative z-10 flex items-center justify-between w-full text-[#D4AF37]/80 font-cinzel text-xs px-2 rotate-180">
-                <span>THE DECK</span>
-                <span>♠ ♥ ♦ ♣</span>
+              <div className="relative z-10 flex items-center justify-between w-full text-[#D4AF37] font-cinzel text-xs px-2 rotate-180 tracking-widest">
+                <span>♠ THE DECK</span>
+                <span>♥ ♦ ♣</span>
               </div>
             </>
           )}
+
+          {/* Flip back indicator */}
+          <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none opacity-70">
+            <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#D4AF37] bg-[#050B18]/80 px-2.5 py-0.5 rounded-full border border-[#D4AF37]/30 shadow-md">
+              ↻ CLICK TO RETURN
+            </span>
+          </div>
         </div>
       </motion.div>
     </div>
