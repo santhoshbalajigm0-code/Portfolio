@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-cinzel: 'Cinzel', serif;
+    --font-garamond: 'Cormorant Garamond', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --gold: #D4AF37;
+    --bg-dark: #050B18;
+    --bg-radial: #101E36;
+    --text-primary: #E4E3E0;
+    --card-cream: #FFFDD0;
+    --card-ivory: #F8F5F0;
+    --card-dark: #141414;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #050B18;
+    color: #E4E3E0;
+    overflow-x: hidden;
+  }
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel);
+}
+
+.font-card {
+  font-family: var(--font-garamond);
+}
+
+.font-mono-code {
+  font-family: var(--font-mono);
+}
+
+/* 3D Card transforms */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1500 {
+  perspective: 1500px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Immersive UI geometric cards pattern */
+.immersive-grid-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 15H25L30 5zM30 55L25 45H35L30 55zM5 30L15 25V35L5 30zM55 30L45 35V25L55 30z' fill='%23ffffff' fill-opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Luxury card gold & foil sheen */
+.gold-sheen {
+  background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(255,255,255,0.08) 50%, rgba(212,175,55,0.25) 100%);
+}
+
+.card-pattern-overlay {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Card table subtle texture */
+.felt-texture {
+  background-image: radial-gradient(circle at center, #101E36 0%, #050B18 100%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050B18;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #152238;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
